@@ -1,0 +1,60 @@
+---
+import Container from '../molecules/Container.astro';
+import Layer from '../molecules/Layer.astro';
+---
+
+<Layer className="relative min-h-screen bg-black overflow-hidden">
+  <div class="absolute inset-0">
+    <!-- Stars background -->
+    <div class="absolute inset-0">
+      <div class="stars"></div>
+    </div>
+    
+    <!-- Purple nebula effect -->
+    <div class="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-purple-500/30 via-pink-500/20 to-transparent rounded-full blur-3xl"></div>
+  </div>
+
+  <Container className="relative pt-32 pb-20 min-h-screen flex items-center">
+    <div class="max-w-2xl">
+      <h1 class="text-6xl font-mono text-white mb-6" data-node-id="57:3">
+        Get ready to blast-off!
+      </h1>
+      <p class="text-xl text-gray-300">
+        Well, not really. We're just chillin.
+      </p>
+    </div>
+
+    <!-- Astronaut image -->
+    <div class="absolute right-0 top-1/2 -translate-y-1/2">
+      <img 
+        src="/astronaut.png" 
+        alt="Floating astronaut" 
+        class="w-[400px] h-auto"
+      />
+    </div>
+  </Container>
+</Layer>
+
+<style>
+  .stars {
+    background-image: radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                      radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                      radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                      radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                      radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                      radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: stars-animation 100s linear infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes stars-animation {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-2000px);
+    }
+  }
+</style>
