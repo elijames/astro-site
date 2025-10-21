@@ -1,0 +1,134 @@
+---
+import Container from '../molecules/Container.astro';
+interface Props {
+    currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const navItems = [
+    { href: '/engraving', text: 'Engraving' },
+    { href: '/art', text: 'Art' },
+    { href: '/code', text: 'Code Stuff' }
+];
+---
+
+<!-- Desktop Navigation -->
+<nav class="hidden lg:block w-full h-nav bg-nav-black text-nav-text">
+    <Container>
+        <a 
+            href="/" 
+            class="absolute left-0 top-nav-top w-logo h-logo text-nav-text no-underline font-special-elite text-2xl leading-[35px] hover:opacity-80 transition-opacity"
+        >
+            Eli Lennox
+        </a>
+        <ul class="absolute right-0 sm:right-0 md:right-0 lg:right-0 2xl:right-0 top-nav-top flex gap-0 list-none m-0 p-0">
+            {navItems.map(item => (
+                <li>
+                    <a 
+                        href={item.href}
+                        class:list={[
+                            'text-nav-text no-underline font-jost text-base w-nav-item h-nav-item leading-[35px] text-center inline-block transition-opacity hover:opacity-80',
+                            { 'font-medium': currentPath === item.href }
+                        ]}
+                    >
+                        {item.text}
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </Container>
+</nav>
+
+<!-- Mobile Navigation -->
+<nav class="lg:hidden w-full bg-nav-black text-nav-text">
+    <div class="w-[90%] mx-auto py-4 flex justify-between items-center">
+        <a 
+            href="/" 
+            class="text-nav-text no-underline font-special-elite text-2xl hover:opacity-80 transition-opacity"
+        >
+            Eli Lennox
+        </a>
+        <button
+            id="hamburger"
+            class="text-nav-text p-2 focus:outline-none z-50 relative"
+            aria-label="Menu"
+        >
+            <svg 
+                class="w-6 h-6" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+            >
+                <path 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round" 
+                    stroke-width="2" 
+                    d="M4 6h16M4 12h16M4 18h16"
+                    class="hamburger-icon"
+                />
+                <path 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round" 
+                    stroke-width="2" 
+                    d="M6 18L18 6M6 6l12 12"
+                    class="close-icon hidden"
+                />
+            </svg>
+        </button>
+    </div>
+    
+    <!-- Mobile Menu Overlay -->
+    <div 
+        id="mobile-menu" 
+        class="fixed top-0 right-0 w-[300px] h-full bg-nav-black transform translate-x-full transition-transform duration-300 ease-in-out z-40"
+    >
+        <div class="pt-20 px-6">
+            <ul class="flex flex-col gap-6 list-none m-0 p-0">
+                {navItems.map(item => (
+                    <li>
+                        <a 
+                            href={item.href}
+                            class:list={[
+                                'block text-nav-text no-underline font-jost text-xl transition-opacity hover:opacity-80',
+                                { 'font-medium': currentPath === item.href }
+                            ]}
+                        >
+                            {item.text}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = hamburger?.querySelector('.hamburger-icon');
+    const closeIcon = hamburger?.querySelector('.close-icon');
+
+    hamburger?.addEventListener('click', () => {
+        mobileMenu?.classList.toggle('translate-x-full');
+        hamburgerIcon?.classList.toggle('hidden');
+        closeIcon?.classList.toggle('hidden');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (!mobileMenu?.contains(target) && !hamburger?.contains(target) && !mobileMenu?.classList.contains('translate-x-full')) {
+            mobileMenu?.classList.add('translate-x-full');
+            hamburgerIcon?.classList.remove('hidden');
+            closeIcon?.classList.add('hidden');
+        }
+    });
+</script>
+
+<style>
+    /* Prevent body scroll when menu is open */
+    :global(body.menu-open) {
+        overflow: hidden;
+    }
+</style>

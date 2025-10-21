@@ -1,0 +1,14 @@
+---
+import Container from './Container.astro';
+
+interface Props {
+    children?: any;
+    disableContainer?: boolean;
+}
+
+const { children, disableContainer = false } = Astro.props;
+---
+
+<section class="relative z-10">
+    {disableContainer ? <slot /> : <Container><slot /></Container>}
+</section>
